@@ -10,6 +10,9 @@ public:
 
         int dir=1;
         int j=1;
+        if(numRows==1){
+            return s;
+        }
         for(int i=0;i<s.size();i++){
             arr[j].push_back(s[i]);
             j+=dir;
