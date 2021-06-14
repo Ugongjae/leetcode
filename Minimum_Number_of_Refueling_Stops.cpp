@@ -1,39 +1,28 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <queue>
 using namespace std;
 
 class Solution {
 public:
     int minRefuelStops(int target, int startFuel, vector<vector<int>>& stations) {
-        int curr=0;
+        priority_queue<int> pq;
+        int len=stations.size();
         int ans=0;
-        int i=0;
-        while(i<stations.size()){
-            if(curr+startFuel>=target){
-                break;
-            }
-
-            int nextStation=-1;
-            int nextFuel=-1;
-            for(int j=i;j<stations.size();j++){
-                if(curr+startFuel>=stations[j][0]){
-                    if(nextFuel<=stations[j][1]){
-                        nextFuel=stations[j][1];
-                        nextStation=j;
-                    }
+        for(int i=0;i<=len;i++){
+            int des = i==len?target:stations[i][0];
+            while(startFuel<des){
+                if(pq.empty()){
+                    return -1;
                 }
+                startFuel += pq.top();
+                ans++;
+                pq.pop();
             }
-            if(nextStation==-1){
-                break;
+            if(i<len){
+                pq.push(stations[i][1]);
             }
-            startFuel=(curr+startFuel)-stations[nextStation][0]+stations[nextStation][1];
-            curr=stations[nextStation][0];
-            ans++;
-            i=nextStation+1;
-        }
-        if(curr+startFuel<target){
-            return -1;
         }
         return ans;
     }
