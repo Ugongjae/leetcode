@@ -5,46 +5,39 @@ using namespace std;
 
 class Solution {
 public:
-    vector<vector<int> > threeSum(vector<int>& nums) {
+    vector<vector<int>> threeSum(vector<int>& nums) {
         sort(nums.begin(),nums.end());
-        vector<vector<int> > ans;
+        vector<vector<int>> res;
 
-        int sum=0;
-        int len=nums.size();
-
-        if(len<3){
-            return {};
+        if(nums.size()<3){
+            return res;
         }
 
-        for(int i=0;i<len-2;i++){
-            int j=i+1;
-            int k=len-1;
-            
-            while(j<k){
-                sum=nums[i]+nums[j]+nums[k];
+        for(int i=0;i<nums.size()-2;i++){
+            int l=i+1;
+            int r=nums.size()-1;
+
+            while(l<r){
+                int sum=nums[i]+nums[l]+nums[r];
+
                 if(sum==0){
-                    ans.push_back({nums[i],nums[j++],nums[k--]});
-                }
-                else if(sum>0){
-                    k--;
+                    res.push_back({nums[i],nums[l],nums[r]});
+                    l++;
+                    r--;
+                }else if(sum<0){
+                    l++;
                 }else{
-                    j++;
+                    r--;
                 }
             }
         }
 
-        vector<vector<int> > res;
-        copy(ans.begin(),ans.end(),back_inserter(res));
-
+        res.erase(unique(res.begin(),res.end()),res.end());
         return res;
     }
 };
 
 int main(){
-
-    Solution s;
-
-
 
     return 0;
 }
